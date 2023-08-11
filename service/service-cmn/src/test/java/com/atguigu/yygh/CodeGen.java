@@ -13,7 +13,7 @@ public class CodeGen {
 
     public static void main(String[] args) {
 
-        String  moduleName = "hosp";
+        String  moduleName = "cmn";
 
         // 1、创建代码生成器
         AutoGenerator mpg = new AutoGenerator();

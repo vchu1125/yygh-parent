@@ -14,7 +14,7 @@ import java.util.Map;
 @Api(tags = "登录接口")
 @RestController
 @RequestMapping("/admin/hosp")
-@CrossOrigin  //跨域
+//@CrossOrigin  //跨域
 public class UserLoginController {
 
     //http://localhost:9528/dev-api/vue-admin-template/user/login

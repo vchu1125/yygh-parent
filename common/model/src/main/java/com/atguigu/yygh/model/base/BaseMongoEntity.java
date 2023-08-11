@@ -2,6 +2,7 @@ package com.atguigu.yygh.model.base;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 
@@ -15,7 +16,7 @@ public class BaseMongoEntity implements Serializable {
 
     @ApiModelProperty(value = "id")
     @Id
-    private String id;
+    private ObjectId id;
 
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
