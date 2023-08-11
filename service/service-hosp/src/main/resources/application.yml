@@ -1,0 +1,56 @@
+server:
+  port: 8201
+spring:
+  application:
+    name: service-hosp
+  profiles:
+    active: dev
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/yygh_hosp?serverTimezone=GMT%2B8&useSSL=false
+    username: root
+    password: admin123
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+  #mongodb配置
+  data:
+    mongodb:
+      host: 192.168.200.112
+      port: 27017
+      database: yygh
+      username: atguigu
+      password: '123456'
+#swagger启动报空指针，需要添加这个配置
+#  mvc:
+#    pathmatch:
+#      matching-strategy: ant_path_matcher
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+logging:
+  file:
+    path: D:/1_java/code/springboot-syt/yygh-parent/log/hosp
+  level:
+    root: info
+    com.atguigu.yygh: info #如果微服务中没有设置日志级别，则按照service-utils中的级别输出日志
+    org.mongodb.driver.protocol.command: debug
+#<logger name="org.mongodb.driver.protocol.command" level="DEBUG" />
+
+
+
+feign:
+  client:
+    config:
+      default:
+        #连接建立的超时时长，单位：毫秒。默认为1秒
+        connect-timeout: 2000
+        #处理请求超时时间，单位：毫秒。默认为1秒
+        read-timeout: 2000
+  sentinel:
+    #添加sentinel支持
+    enabled: true
+
+
+

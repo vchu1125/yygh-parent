@@ -42,6 +42,8 @@ public enum ResultCodeEnum {
     HOSPITAL_LOCK(320, "医院被锁定，暂时不能访问"),
 
     ORDER_CREATE_ERROR( 400, "系统业务繁忙，请稍后下单"),
+
+    IMPORT_DATA_ERROR(260,"文件上传失败")
     ;
 
     private Integer code;
