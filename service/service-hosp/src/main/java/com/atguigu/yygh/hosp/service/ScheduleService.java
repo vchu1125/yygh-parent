@@ -3,6 +3,7 @@ package com.atguigu.yygh.hosp.service;
 import com.atguigu.yygh.model.hosp.Schedule;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,4 +33,21 @@ public interface ScheduleService {
      * @param hosScheduleId
      */
     void remove(String hoscode, String hosScheduleId);
+
+    /**
+     * 根据医院编号和科室编号查询排班信息
+     * @param hoscode
+     * @param depcode
+     * @return
+     */
+    Map<String, Object> getRuleSchedule(Long page, Long limit, String hoscode, String depcode);
+
+    /**
+     * 根据医院编号、科室编号和工作日期查询排班信息
+     * @param hoscode
+     * @param depcode
+     * @param workDate
+     * @return
+     */
+    List<Schedule> getScheduleList(String hoscode, String depcode, String workDate);
 }
