@@ -69,5 +69,22 @@ public class Swagger2Config {
         return docket;
     }
 
+    @Bean
+    public Docket frontDocket(){
+        //指定使用Swagger2规范
+        Docket docket = new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(new ApiInfoBuilder()
+                        .description("尚医通管理系统 APIs")
+                        .contact("admin@atguigu.com")
+                        .version("1.0")
+                        .build())
+                //分组名称
+                .groupName("用户平台")
+                .select()
+                .paths(PathSelectors.regex("/front/.*"))
+                .build();
+        return docket;
+    }
+
 
 }

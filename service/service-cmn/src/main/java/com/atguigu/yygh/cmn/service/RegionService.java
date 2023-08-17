@@ -3,6 +3,7 @@ package com.atguigu.yygh.cmn.service;
 
 import com.atguigu.yygh.model.cmn.Region;
 import com.atguigu.yygh.vo.cmn.RegionExcelVo;
+import com.atguigu.yygh.vo.cmn.RegionVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -51,4 +52,6 @@ public interface RegionService extends IService<Region> {
      * @return
      */
     String getNameByCode(String code);
+
+    List<RegionVo> findRegionListByParentCode(String parentCode);
 }

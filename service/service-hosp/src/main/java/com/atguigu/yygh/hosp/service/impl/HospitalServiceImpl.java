@@ -138,4 +138,30 @@ public class HospitalServiceImpl implements HospitalService {
         return hospital;
     }
 
+    @Override
+    public List<Hospital> selectList(String hosname, String hostype, String districtCode) {
+        Sort sort = Sort.by(Sort.Direction.ASC, "hoscode");
+        //这个方法，参数为null的时候需要做判断要不会报错
+        // List<Hospital> hospitalList = hospitalRepository.findByHosnameLikeAndHostypeAndDistrictCodeAndStatus(hosname,hostype,districtCode,1,sort);
+        //组装查询条件模糊
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withMatcher("hosname", ExampleMatcher.GenericPropertyMatchers.contains())//模糊查询
+                .withMatcher("hostype", ExampleMatcher.GenericPropertyMatchers.exact())//精确查询
+                .withMatcher("districtCode", ExampleMatcher.GenericPropertyMatchers.exact());//精确查询
+        //创建查询对象
+        Hospital hospital = new Hospital();
+        hospital.setStatus(1);//已上线
+        hospital.setHosname(hosname);
+        hospital.setHostype(hostype);
+        hospital.setDistrictCode(districtCode);
+
+        Example<Hospital> example =Example.of(hospital,matcher);
+        //执行查询
+        List<Hospital> hospitalList = hospitalRepository.findAll(example, sort);
+        //封装医院等级数据
+        hospitalList.forEach(this::setHospital);
+
+        return hospitalList;
+    }
+
 }

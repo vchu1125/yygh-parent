@@ -4,6 +4,7 @@ import com.atguigu.yygh.model.hosp.Hospital;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
@@ -23,4 +24,5 @@ public interface HospitalRepository extends MongoRepository<Hospital, ObjectId> 
 
     Page<Hospital> findByHosnameLike(String hosname, Pageable pageable);
 
+    List<Hospital> findByHosnameLikeAndHostypeAndDistrictCodeAndStatus(String hosname, String hostype, String districtCode, Integer status, Sort sort);
 }

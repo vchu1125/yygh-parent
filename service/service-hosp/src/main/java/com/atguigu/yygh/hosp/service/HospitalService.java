@@ -3,6 +3,7 @@ package com.atguigu.yygh.hosp.service;
 import com.atguigu.yygh.model.hosp.Hospital;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,4 +34,6 @@ public interface HospitalService {
 
     //查看医院详情
     Hospital showHospital(String hoscode);
+
+    List<Hospital> selectList(String hosname, String hostype, String districtCode);
 }

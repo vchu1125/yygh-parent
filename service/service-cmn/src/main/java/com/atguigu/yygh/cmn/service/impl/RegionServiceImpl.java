@@ -9,6 +9,7 @@ import com.atguigu.yygh.common.exception.YyghException;
 import com.atguigu.yygh.common.result.ResultCodeEnum;
 import com.atguigu.yygh.model.cmn.Region;
 import com.atguigu.yygh.vo.cmn.RegionExcelVo;
+import com.atguigu.yygh.vo.cmn.RegionVo;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -142,5 +143,21 @@ public class RegionServiceImpl extends ServiceImpl<RegionMapper, Region> impleme
             throw new YyghException(ResultCodeEnum.PARAM_ERROR);
         }
         return region.getName();
+    }
+
+    @Override
+    public List<RegionVo> findRegionListByParentCode(String parentCode) {
+        LambdaQueryWrapper<Region> lambdaQueryWrapper = new LambdaQueryWrapper();
+        lambdaQueryWrapper.eq(Region::getParentCode,parentCode);
+        //创建RegionVo对象，优化返回字段冗余字段太多的问题
+        List<RegionVo> regionVoList = new ArrayList<>();
+        List<Region> regionList = baseMapper.selectList(lambdaQueryWrapper);
+        regionList.stream().forEach(region -> {
+            RegionVo regionVo = new RegionVo();
+            regionVo.setCode(region.getCode());
+            regionVo.setName(region.getName());
+            regionVoList.add(regionVo);
+        });
+        return regionVoList;
     }
 }

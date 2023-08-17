@@ -9,8 +9,6 @@ import com.atguigu.yygh.model.cmn.DictType;
 import com.atguigu.yygh.vo.cmn.DictTypeVo;
 import com.atguigu.yygh.vo.cmn.DictVo;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -82,5 +80,12 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
             return "";
         }
         return dict.getName();
+    }
+
+    @Override
+    public List<Dict> findDictListByDictTypeId(Long dictTypeId) {
+        LambdaQueryWrapper<Dict> lambdaQueryWrapper = new LambdaQueryWrapper();
+        lambdaQueryWrapper.eq(Dict::getDictTypeId,dictTypeId);
+        return this.list(lambdaQueryWrapper);
     }
 }
