@@ -3,12 +3,14 @@ package com.atguigu.yygh.user.controller.api;
 import com.alibaba.fastjson.JSONObject;
 import com.atguigu.yygh.common.exception.YyghException;
 import com.atguigu.yygh.common.result.ResultCodeEnum;
+import com.atguigu.yygh.common.utils.AuthContextHolder;
 import com.atguigu.yygh.common.utils.CookieUtils;
 import com.atguigu.yygh.common.utils.HttpUtil;
 import com.atguigu.yygh.enums.UserStatusEnum;
 import com.atguigu.yygh.model.user.UserInfo;
 import com.atguigu.yygh.user.service.UserInfoService;
 import com.atguigu.yygh.user.utils.ConstantProperties;
+import com.atguigu.yygh.vo.user.UserVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +45,8 @@ public class ApiWxController {
     private UserInfoService userInfoService;
     @Resource
     private RedisTemplate redisTemplate;
+    @Resource
+    private AuthContextHolder  authContextHolder;
     //登录回调
     @ApiOperation("微信登录回调")
     @GetMapping("callback")
@@ -129,7 +133,7 @@ public class ApiWxController {
                 name = userInfo.getNickName();
             }
             //生成token
-            String token = UUID.randomUUID().toString().replace("_","");
+            String token = UUID.randomUUID().toString().replace("-","");
             //将token做成key，用户id做值存入redis 设置30分钟过期时间
             redisTemplate.opsForValue().set("user:token:" + token,userInfo.getId(),30, TimeUnit.MINUTES);
             //将token和name存入cookie
@@ -138,6 +142,10 @@ public class ApiWxController {
             CookieUtils.setCookie(response,"token",token,cookieMaxTime);
             CookieUtils.setCookie(response,"name", URLEncoder.encode(name),cookieMaxTime);
 
+            UserVo userVo = new UserVo();
+            userVo.setName(name);
+            userVo.setUserId(userInfo.getId());
+            authContextHolder.saveToken(userVo,response);
 
             return "redirect:" + constantProperties.getSytBaseUrl();
         } catch (YyghException e) {

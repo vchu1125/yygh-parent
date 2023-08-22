@@ -8,6 +8,7 @@ import com.aliyun.oss.common.auth.EnvironmentVariableCredentialsProvider;
 import com.aliyun.oss.model.PutObjectRequest;
 import com.aliyun.oss.model.PutObjectResult;
 
+import com.aliyuncs.exceptions.ClientException;
 import com.atguigu.yygh.common.exception.YyghException;
 import com.atguigu.yygh.common.result.ResultCodeEnum;
 import com.atguigu.yygh.oss.service.FileService;
@@ -53,7 +54,7 @@ public class FileServiceImpl implements FileService {
         // 填写Object完整路径，完整路径中不能包含Bucket名称，例如exampledir/exampleobject.txt。
         String objectName =
                 dateStr
-                        + "/" + UUID.randomUUID().toString().replace("_", "")
+                        + "/" + UUID.randomUUID().toString().replace("-", "")
                         + originalFilename.substring(originalFilename.lastIndexOf("."));
 
         // 创建OSSClient实例。
@@ -81,7 +82,7 @@ public class FileServiceImpl implements FileService {
             URL url = ossClient.generatePresignedUrl(bucketName, objectName, expiration);
 
             HashMap<String, String> map = new HashMap<>();
-            map.put("previewUtl", url.toString());
+            map.put("previewUrl", url.toString());
             map.put("url", objectName);
 
             return map;
@@ -98,5 +99,32 @@ public class FileServiceImpl implements FileService {
             }
         }
             return null;
+    }
+
+    @Override
+    public String getPreviewUrl(String objectName) {
+        OSS ossClient = null;
+        try {
+            // Endpoint以华东1（杭州）为例，其它Region请按实际情况填写。
+            String endpoint = constantProperties.getEndpoint();
+            // 从环境变量中获取访问凭证。运行本代码示例之前，请确保已设置环境变量OSS_ACCESS_KEY_ID和OSS_ACCESS_KEY_SECRET。
+            EnvironmentVariableCredentialsProvider credentialsProvider = CredentialsProviderFactory.newEnvironmentVariableCredentialsProvider();
+            // 填写Bucket名称，例如examplebucket。
+            String bucketName = constantProperties.getBucketName();
+            // 创建OSSClient实例。
+            ossClient = new OSSClientBuilder().build(endpoint, credentialsProvider);
+            // 设置签名URL过期时间，单位为毫秒。本示例以设置过期时间为1小时为例。
+            Date expiration = new Date(new Date().getTime() + 3600 * 1000L);
+            // 生成以GET方法访问的签名URL，访客可以直接通过浏览器访问相关内容。
+            URL url = ossClient.generatePresignedUrl(bucketName, objectName, expiration);
+            System.out.println("url = " + url.toString());
+            return url.toString();
+        } catch (Exception e) {
+            throw new YyghException(ResultCodeEnum.FAIL.getCode(), "失败",e);
+        } finally {
+            if (ossClient != null) {
+                ossClient.shutdown();
+            }
+        }
     }
 }

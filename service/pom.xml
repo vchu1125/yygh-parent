@@ -14,8 +14,8 @@
     <modules>
         <module>service-hosp</module>
         <module>service-cmn</module>
-        <module>service-user</module>
         <module>service-oss</module>
+        <module>service-user</module>
     </modules>
 
     <properties>
@@ -98,6 +98,12 @@
         <dependency>
             <groupId>com.atguigu</groupId>
             <artifactId>service-cmn-client</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <!--引用service-oss-client-->
+        <dependency>
+            <groupId>com.atguigu</groupId>
+            <artifactId>service-oss-client</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <!--熔断降级-->

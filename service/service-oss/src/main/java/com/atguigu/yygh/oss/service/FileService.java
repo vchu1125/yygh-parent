@@ -12,4 +12,11 @@ import java.util.Map;
  */
 public interface FileService {
     Map<String, String> upload(MultipartFile file) throws Exception;
+
+    /**
+     * 获取图片url地址
+     * @param objectName
+     * @return
+     */
+    String getPreviewUrl(String objectName);
 }

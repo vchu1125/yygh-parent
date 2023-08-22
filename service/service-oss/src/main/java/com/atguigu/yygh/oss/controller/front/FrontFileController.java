@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
@@ -33,9 +34,9 @@ public class FrontFileController {
     @ApiOperation("文件上传")
     @ApiImplicitParam(name = "file",value = "上传文件",required = true)
     @PostMapping("auth/upload")
-    public Result<Map<String,String>> upload(MultipartFile file, HttpServletRequest request) throws Exception {
+    public Result<Map<String,String>> upload(MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws Exception {
         //授权校验
-        authContextHolder.checkAuth(request);
+        authContextHolder.checkAuth(request,response);
         Map<String,String> map = fileService.upload(file);
         return Result.ok(map).message("上传成功");
     }

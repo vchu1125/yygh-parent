@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @Date 2023/8/10 9:57
  * @注释
  */
-@FeignClient(value = "service-cmn" ,contextId = "dictClient",fallback = DictFeignClientFallback.class)
+@FeignClient(value = "service-cmn" ,contextId = "dictClient123",fallback = DictFeignClientFallback.class)
 public interface DictFeignClient {
     //获取数据字典名称
     @GetMapping(value = "/inner/cmn/dict/getName/{dictTypeId}/{value}")

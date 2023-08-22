@@ -1,4 +1,4 @@
-package com.atguigu.yygh.hosp.config;
+package com.atguigu.yygh.user.config;
 
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import org.springframework.context.annotation.Bean;
@@ -6,14 +6,16 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * @Author Weizhu
- * @Date 2023/7/24 17:34
+ * @Date 2023/8/21 21:10
  * @注释
  */
 @Configuration
-public class HospConfig {
-    // 分页插件
+public class UserConfig {
+    /**
+     * 分页插件
+     */
     @Bean
-    public PaginationInterceptor paginationInterceptor(){
+    public PaginationInterceptor paginationInterceptor() {
         return new PaginationInterceptor();
     }
 }
